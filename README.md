@@ -42,7 +42,7 @@ torchrun --nproc_per_node 1 example_chat_completion.py --ckpt_dir llama-2-7b-cha
 ![修改dialogs](images/dialogs.jpg)
 
 ## 二、lit-llama微调大模型
-本章主要参考[https://github.com/Lightning-AI/lit-llama](https://github.com/Lightning-AI/lit-llama)
+本章主要参考[https://github.com/Lightning-AI/lit-llama](https://github.com/Lightning-AI/lit-llama)  
 lit-llama暂时不支持多卡训练
 ### 1、本地部署lit-llama
 首先创建虚拟环境
