@@ -1,9 +1,9 @@
 # 我的LLM学习心得
 
 ## 一、本地部署llama
-本章主要参考 `https://github.com/facebookresearch/llama.git`
+本章主要参考[https://github.com/facebookresearch/llama.git](https://github.com/facebookresearch/llama.git)
 ### 1、申请llama许可
-申请网站（需要科学上网）： `https://ai.meta.com/resources/models-and-libraries/llama-downloads/`
+申请网站（需要科学上网): [https://ai.meta.com/resources/models-and-libraries/llama-downloads/](https://ai.meta.com/resources/models-and-libraries/llama-downloads/)
 ![申请网站](images/applying-web.jpg)
 勾选 Llama 2 & Llama Chat 和底部 I accept the terms and conditions 点击 Accept and Continue  
 一段时间后，邮箱会收到一封邮件，以 `https://download.llamameta.net/*` 开头的链接就是下载权重参数文件时需要验证的信息。
@@ -42,7 +42,7 @@ torchrun --nproc_per_node 1 example_chat_completion.py --ckpt_dir llama-2-7b-cha
 ![修改dialogs](images/dialogs.jpg)
 
 ## 二、lit-llama微调大模型
-本章主要参考`https://github.com/Lightning-AI/lit-llama`  
+本章主要参考[https://github.com/Lightning-AI/lit-llama](https://github.com/Lightning-AI/lit-llama)
 lit-llama暂时不支持多卡训练
 ### 1、本地部署lit-llama
 首先创建虚拟环境
@@ -106,5 +106,5 @@ python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.p
 但是在拉取`hugging face`的过程中失败，后作罢
 
 ## 三、LLaMA-Factory仓库
-本章主要参考`https://github.com/hiyouga/LLaMA-Factory`
+本章主要参考[https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)
 ## (持续更新中......)
