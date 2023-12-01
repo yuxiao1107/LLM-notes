@@ -41,4 +41,28 @@ torchrun --nproc_per_node 1 example_chat_completion.py --ckpt_dir llama-2-7b-cha
 或者修改`example_chat_completion.py`里的`dialogs`变量。按照openai`system`、`user`、`assistant`的标准格式改写即可
 ![修改dialogs](images/dialogs.jpg)
 
+## 微调llama大模型
+### 1、lit-llama
+本节主要参考`https://github.com/Lightning-AI/lit-llama`  
+首先创建虚拟环境
+```
+conda create -n litllama python=3.10
+conda activate litllama
+```
+然后克隆lit-llama的git仓库并安装依赖
+```
+git clone https://github.com/Lightning-AI/lit-llama
+cd lit-llama
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+然后把我们在第一章申请到的权重参数文件copy出来，到lit-llama目录下面，具体路径如下所示
+```commandline
+checkpoints/llama
+├── 7B
+│   ├── ...
+│   └── consolidated.00.pth
+├── 13B
+│   ...
+└── tokenizer.model
+```
 ## (持续更新中......)
