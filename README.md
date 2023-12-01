@@ -98,7 +98,7 @@ python generate/lora.py --prompt "Recommend a movie to watch on the weekend."
 ```commandline
 I would recommend the movie The Martian (2015). It is a sci-fi movie starring Matt Damon that follows the story of...
 ```
-但是在执行时显存又爆了。并且执行lora时不支持降低精度，在第一节中使用的方法不奏效了。  
+但是在执行时显存又爆了。并且执行`lora`时不支持降低精度，在第一节中使用的方法不奏效了。  
 于是我想在第一步预训练的参数就降为`4bit`，执行如下命令
 ```commandline
 python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.pth --dtype bfloat16 --quantize gptq.int4
@@ -107,8 +107,8 @@ python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.p
 
 ## 三、LLaMA-Factory仓库
 本章主要参考[https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)  
-LLaMA-Factory提供图形化微调，b站视频链接: [从零到一微调大语言模型ChatGLM,LLaMA](https://www.bilibili.com/video/BV1oH4y1R7xi)
-LLaMA-Factory支持多卡训练  
+LLaMA-Factory支持多卡训练、同时支持图形化微调训练  
+b站视频链接: [从零到一微调大语言模型ChatGLM,LLaMA](https://www.bilibili.com/video/BV1oH4y1R7xi)、[ChatGLM3模型微调，二次微调](https://www.bilibili.com/video/BV1Hw411B75j/)  
 首先创建虚拟环境
 ```commandline
 conda create -n llama_factory python=3.10
