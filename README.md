@@ -41,9 +41,10 @@ torchrun --nproc_per_node 1 example_chat_completion.py --ckpt_dir llama-2-7b-cha
 或者修改`example_chat_completion.py`里的`dialogs`变量。按照openai`system`、`user`、`assistant`的标准格式改写即可
 ![修改dialogs](images/dialogs.jpg)
 
-## 微调llama大模型
-### 1、lit-llama
-本节主要参考`https://github.com/Lightning-AI/lit-llama`  
+## 二、lit-llama微调大模型
+本章主要参考`https://github.com/Lightning-AI/lit-llama`  
+lit-llama暂时不支持多卡训练
+### 1、本地部署lit-llama
 首先创建虚拟环境
 ```
 conda create -n litllama python=3.10
@@ -65,4 +66,45 @@ checkpoints/llama
 │   ...
 └── tokenizer.model
 ```
+执行如下命令把权重参数文件转为lit-llama格式
+```commandline
+python scripts/convert_checkpoint.py --model_size 7B
+```
+然后执行如下命令体验lit-llama
+```commandline
+python generate.py --prompt "Hello, my name is"
+```
+这需要大概26GM的GPU显存，我们的gpu2单卡显存24GB，爆内存了，转用低精度
+```commandline
+python generate.py --quantize llm.int8 --prompt "Hello, my name is"
+```
+运行成功
+![修改dialogs](images/lit-llama.jpg)
+### 2、微调
+首先准备数据集。数据集选用[Alpaca](https://github.com/tatsu-lab/stanford_alpaca)，执行下面命令会自动下载
+```commandline
+python scripts/prepare_alpaca.py
+```
+然后开始微调
+```commandline
+python finetune/lora.py
+```
+因为这个仓库下的代码暂不支持多卡训练，一张P40训练37500个epoch一共用了46小时，lora参数保存路径为`./out/lora/alpaca/lit-llama-lora-finetuned.pth`  
+然后执行下面么命令观察微调效果
+```commandline
+python generate/lora.py --prompt "Recommend a movie to watch on the weekend."
+```
+期待得到结果
+```commandline
+I would recommend the movie The Martian (2015). It is a sci-fi movie starring Matt Damon that follows the story of...
+```
+但是在执行时显存又爆了。并且执行lora时不支持降低精度，在第一节中使用的方法不奏效了。  
+于是我想在第一步预训练的参数就降为`4bit`，执行如下命令
+```commandline
+python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.pth --dtype bfloat16 --quantize gptq.int4
+```
+但是在拉取`hugging face`的过程中失败，后作罢
+
+## 三、LLaMA-Factory仓库
+本章主要参考`https://github.com/hiyouga/LLaMA-Factory`
 ## (持续更新中......)
