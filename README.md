@@ -106,5 +106,6 @@ python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.p
 但是在拉取`hugging face`的过程中失败，后作罢
 
 ## 三、LLaMA-Factory仓库
-本章主要参考[https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)
+本章主要参考[https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)  
+LLaMA-Factory支持多卡训练
 ## (持续更新中......)
