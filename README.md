@@ -107,5 +107,64 @@ python quantize/gptq.py --output_path checkpoints/lit-llama/7B/llama-gptq.4bit.p
 
 ## 三、LLaMA-Factory仓库
 本章主要参考[https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)  
-LLaMA-Factory支持多卡训练
+LLaMA-Factory提供图形化微调，b站视频链接: [从零到一微调大语言模型ChatGLM,LLaMA](https://www.bilibili.com/video/BV1oH4y1R7xi)
+LLaMA-Factory支持多卡训练  
+首先创建虚拟环境
+```commandline
+conda create -n llama_factory python=3.10
+conda activate llama_factory
+```
+然后克隆LLaMA-Factory的git仓库并安装依赖
+```commandline
+git clone https://github.com/hiyouga/LLaMA-Factory.git
+cd LLaMA-Factory
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+如果是单卡训练，执行如下命令
+```commandline
+CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
+    --stage sft \
+    --model_name_or_path path_to_llama_model \
+    --do_train \
+    --dataset alpaca_gpt4_en \
+    --template default \
+    --finetuning_type lora \
+    --lora_target q_proj,v_proj \
+    --output_dir path_to_sft_checkpoint \
+    --overwrite_cache \
+    --per_device_train_batch_size 4 \
+    --gradient_accumulation_steps 4 \
+    --lr_scheduler_type cosine \
+    --logging_steps 10 \
+    --save_steps 1000 \
+    --learning_rate 5e-5 \
+    --num_train_epochs 3.0 \
+    --plot_loss \
+    --fp16
+```
+如果是多卡训练，执行如下命令
+```commandline
+deepspeed --num_gpus 8 --master_port=9901 src/train_bash.py \
+    --deepspeed ds_config.json \
+    --stage sft \
+    --model_name_or_path path_to_llama_model \
+    --do_train \
+    --dataset alpaca_gpt4_en \
+    --template default \
+    --finetuning_type lora \
+    --lora_target q_proj,v_proj \
+    --output_dir path_to_sft_checkpoint \
+    --overwrite_cache \
+    --per_device_train_batch_size 4 \
+    --gradient_accumulation_steps 4 \
+    --lr_scheduler_type cosine \
+    --logging_steps 10 \
+    --save_steps 1000 \
+    --learning_rate 5e-5 \
+    --num_train_epochs 3.0 \
+    --plot_loss \
+    --fp16
+```
+我在这里卡住了，因为使用`deepspeed`需要`CUDA`安装过`Toolkit`，我们的`gpu2`没有，并且安装需要`sudo`权限，所以我就没有再继续使用LLaMA-Factory
+
 ## (持续更新中......)
